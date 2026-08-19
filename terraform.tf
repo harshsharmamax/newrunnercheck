@@ -5,6 +5,12 @@ terraform {
         version = "=5.0.0"
     }
   }
+  backend "azurerm" {
+    resource_group_name  = "harshRG987"
+    storage_account_name = "harshstorage987"
+    container_name       = "tfstate"
+    key                  = "terraform.tfstate"
+  }
 }
 
 provider "azurerm" {
