@@ -22,8 +22,17 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Add Terraform to PATH
+        shell: powershell
+        run: |
+          $terraformPath = "C:\Users\harsh.sharma\AppData\Local\Microsoft\WinGet\Packages\Hashicorp.Terraform_Microsoft.Winget.Source_8wekyb3d8bbwe"
+          Add-Content -Path $env:GITHUB_PATH -Value $terraformPath
+
       - name: Check Terraform Version
-        run: terraform version
+        shell: powershell
+        run: |
+          where.exe terraform
+          terraform version
 
       - name: Check Azure CLI
         run: az version
