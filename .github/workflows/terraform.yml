@@ -11,6 +11,7 @@ on:
       - main
 
 permissions:
+  id-token: write
   contents: read
 
 jobs:
@@ -28,17 +29,22 @@ jobs:
           $terraformPath = "C:\Users\harsh.sharma\AppData\Local\Microsoft\WinGet\Packages\Hashicorp.Terraform_Microsoft.Winget.Source_8wekyb3d8bbwe"
           Add-Content -Path $env:GITHUB_PATH -Value $terraformPath
 
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ '0abf8a0c-4139-44cf-835c-b78f26da31b5' }}
+          tenant-id: ${{ '093e9319-5648-4618-8c7d-f585fb2ed3f9' }}
+          subscription-id: ${{ '2eeb0869-d474-4f94-a0b0-fb6a5d23d142' }}
+
+      - name: Check Azure Account
+        shell: powershell
+        run: |
+          az account show
+
       - name: Check Terraform Version
         shell: powershell
         run: |
-          where.exe terraform
           terraform version
-
-      - name: Check Azure CLI
-        run: az version
-
-      - name: Check Azure Account
-        run: az account show
 
       - name: Terraform Init
         run: terraform init
